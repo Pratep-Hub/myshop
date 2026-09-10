@@ -1,4 +1,4 @@
-const API = "http://127.0.0.1:8000";
+const API = "https://myshop-api-8c54.onrender.com";
 document.getElementById("apiBase").textContent = API;
 
 const LS_TOKEN = "admin_token";
