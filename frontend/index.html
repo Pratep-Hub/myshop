@@ -1,0 +1,142 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <link rel="stylesheet" href="./styles.css"/>
+  <title>MyShop</title>
+</head>
+
+<body class="light">
+  <div class="topbar">
+    <div class="row">
+      <div class="row">
+        <div class="brand" id="brandAdmin">MyShop</div>
+      </div>
+      <div class="row">
+        <button class="btn" onclick="openCart()">Cart (<span id="cartCount">0</span>)</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- Hero / Filters -->
+    <div class="card" style="padding:14px">
+      <div class="row" style="justify-content:space-between">
+        <div>
+          <h2 style="margin:0">Shop</h2>
+          <div class="muted">Choose category, search and add to cart</div>
+        </div>
+        <div class="muted small" id="status"></div>
+      </div>
+
+      <div class="split" style="margin-top:10px">
+        <div>
+          <label class="muted">Category</label>
+          <select id="catFilter" onchange="applyFilters()"></select>
+        </div>
+        <div>
+          <label class="muted">Search</label>
+          <input id="searchBox" placeholder="Search products..." oninput="applyFilters()"/>
+        </div>
+      </div>
+    </div>
+
+    <div id="products" class="grid" style="margin-top:12px"></div>
+
+    <!-- Cart Modal (popup) -->
+    <dialog id="cartModal" class="modal">
+      <div class="modalHead">
+        <div>
+          <b>Your Cart</b>
+          <div class="muted small">Update quantity and checkout</div>
+        </div>
+        <button class="btn" onclick="closeCart()">Close</button>
+      </div>
+
+      <div id="cartItems" class="muted"></div>
+
+      <div class="row" style="margin-top:10px;justify-content:space-between">
+        <div class="pill">Total: ₹<span id="total">0</span></div>
+        <div class="row">
+          <button class="btn" onclick="clearCart()">Clear</button>
+          <button class="btn primary" onclick="openCheckout()">Proceed to Checkout</button>
+        </div>
+      </div>
+
+      <div class="muted small" id="orderMsg" style="margin-top:8px"></div>
+    </dialog>
+
+    <!-- Product Modal -->
+    <dialog id="productModal" class="modal">
+      <div class="modalHead">
+        <div>
+          <b id="mName">Product</b>
+          <div class="muted small">₹<span id="mPrice">0</span> • ⭐ <span id="mRating">0</span></div>
+        </div>
+        <button class="btn" onclick="closeProductModal()">Close</button>
+      </div>
+
+      <div class="modalBody">
+        <div class="modalImg" id="tiltArea">
+          <img id="mImg" src="" alt="Product image">
+        </div>
+        <div>
+          <div class="muted" id="mDesc" style="white-space:pre-wrap"></div>
+          <div class="row" style="margin-top:12px">
+            <button class="btn primary" onclick="addModalToCart()">Add to cart</button>
+          </div>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- Checkout Modal -->
+    <dialog id="checkoutModal" class="modal">
+      <div class="modalHead">
+        <div>
+          <b>Checkout</b>
+          <div class="muted small">Fill details and confirm order</div>
+        </div>
+        <button class="btn" onclick="closeCheckout()">Close</button>
+      </div>
+
+      <form id="checkoutForm" onsubmit="event.preventDefault(); submitOrder();">
+        <div class="split">
+          <div>
+            <label class="muted">Name</label>
+            <input id="name" placeholder="Full name" required minlength="2">
+          </div>
+          <div>
+            <label class="muted">Phone</label>
+            <input id="phone" placeholder="10 digit mobile" required inputmode="numeric">
+          </div>
+        </div>
+
+        <label class="muted" style="margin-top:10px;display:block">Full Address</label>
+        <textarea id="address" placeholder="House no, street, area, city" required minlength="8"></textarea>
+
+        <div class="split" style="margin-top:10px">
+          <div>
+            <label class="muted">Pincode</label>
+            <input id="pincode" placeholder="600001" required inputmode="numeric">
+          </div>
+          <div class="pill" style="align-self:end">Payment: Cash on Delivery</div>
+        </div>
+
+        <div class="row" style="margin-top:12px;justify-content:space-between">
+          <div class="pill">Total: ₹<span id="checkoutTotal">0</span></div>
+          <button class="btn primary" type="submit">Confirm Order</button>
+        </div>
+
+        <div id="formError"></div>
+      </form>
+    </dialog>
+
+    <!-- Toast popup -->
+    <div id="toast" class="toastPop" style="display:none"></div>
+
+  </div>
+
+  <script src="./shop.js"></script>
+</body>
+</html>
